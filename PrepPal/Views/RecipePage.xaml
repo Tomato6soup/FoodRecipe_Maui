@@ -5,22 +5,24 @@
              x:Class="PrepPal.Views.RecipePage"
              BackgroundColor="#F0F0F0"
              Title="Recipes">
-    
+
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="AddToolbarItem"
                      IconImageSource="add_icon.png"
                      Clicked="OnAddNewRecipeClicked"/>
     </ContentPage.ToolbarItems>
 
-    <StackLayout Padding="20">
+    <Grid>
         <CollectionView ItemsSource="{Binding Recipes}"
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}"
-                        SelectionChanged="OnRecipeSelected">
+                        SelectionChanged="OnRecipeSelected"
+                        Margin="10"
+                        VerticalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2"
-                                 VerticalItemSpacing="5"
-                                 HorizontalItemSpacing="5" />
+                <GridItemsLayout Orientation="Vertical" Span="3"
+                                 VerticalItemSpacing="10"
+                                 HorizontalItemSpacing="10" />
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
@@ -68,5 +70,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </StackLayout>
+    </Grid>
 </ContentPage>

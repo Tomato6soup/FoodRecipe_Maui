@@ -1,0 +1,129 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrepPal.Views.AddRecipePage"
+             BackgroundColor="#F0F0F0"
+             Title="Add New Recipe">
+    
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IconOverride="back_icon.png"
+                            Command="{Binding NavigateBackCommand}"
+                            IsEnabled="True"/>
+    </Shell.BackButtonBehavior>
+
+    <ScrollView>
+        <StackLayout>
+
+            <!-- Recipe Name -->
+            <Label Text="Recipe Name" Padding="0,10,0,0"/>
+            <Border Stroke="Black" StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="recipeNameEntry" Placeholder="Recipe Name" />
+            </Border>
+
+            <!-- Category -->
+            <Label Text="Category" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="categoryEntry" Placeholder="Category" />
+            </Border>
+
+            <!-- Servings -->
+            <Label Text="Servings" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="servingsEntry" Placeholder="Servings" Keyboard="Numeric" />
+            </Border>
+
+            <!-- Prep Time -->
+            <Label Text="Prep Time" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="prepTimeEntry" Placeholder="Prep Time (minutes)" Keyboard="Numeric" />
+            </Border>
+
+            <!-- Cook Time -->
+            <Label Text="Cook Time" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="cookTimeEntry" Placeholder="Cook Time (minutes)" Keyboard="Numeric" />
+            </Border>
+
+            <!-- Source -->
+            <Label Text="Source" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0" >
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="sourceEntry" Placeholder="Source" />
+            </Border>
+
+            <!-- Source URL -->
+            <Label Text="Source URL" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry x:Name="sourceUrlEntry" Placeholder="Source URL" />
+            </Border>
+            
+            <!-- Recipe Image -->
+            <Label Text="Recipe Image" Padding="0,10,0,0" />
+            <Button x:Name="selectImageButton" 
+                    Text="Add Image"
+                    HorizontalOptions="Start"
+                    WidthRequest="100"
+                    BackgroundColor="Black" 
+                    Clicked="OnSelectImageButtonClicked"/>
+
+            <Image x:Name="recipeImagePreview" 
+                   HeightRequest="100" 
+                   WidthRequest="100" 
+                   Aspect="AspectFill"
+                   IsVisible="False"/>
+
+            <!-- Ingredients -->
+            <Label Text="Ingredients (one per line)" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Editor x:Name="ingredientsEditor" Placeholder="Ingredients" HeightRequest="150"/>
+            </Border>
+
+            <!-- Instructions -->
+            <Label Text="Instructions (one per line)" Padding="0,10,0,0" />
+            <Border Stroke="Black" StrokeThickness="1" Padding="0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Editor x:Name="instructionsEditor" Placeholder="Instructions" HeightRequest="150"/>
+            </Border>
+
+            <!-- Horizontal StackLayout for Buttons -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20" Padding="0,10,0,0">
+
+                <!-- Add Recipe Button -->
+                <Button Text="Add Recipe" 
+                        BackgroundColor="Black"
+                        Clicked="OnAddRecipeClicked" />
+
+                <!-- Cancel Button -->
+                <Button Text="Cancel"
+                        BackgroundColor="Black"
+                        Clicked="OnCancelClicked" />
+
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

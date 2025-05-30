@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrepPal.Views.RecipeDetailPage"
+             BackgroundColor="#F0F0F0"
+             Title="{Binding Name}">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IconOverride="back_icon.png"
+                            Command="{Binding NavigateBackCommand}"
+                            IsEnabled="True"/>
+    </Shell.BackButtonBehavior>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="InfoToolbarItem"
+                     IconImageSource="edit_icon.png"
+                     Clicked="OnRecipeInfoClicked" />
+        <ToolbarItem x:Name="FavoriteToolbarItem" 
+                     IconImageSource="heart_icon.png" 
+                     Clicked="OnFavoriteClicked" />
+        <ToolbarItem x:Name="DeleteToolbarItem" 
+                     IconImageSource="delete_icon.png"
+                     Clicked="OnDeleteRecipeClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <StackLayout Padding="0" Spacing="0">
+            <Image x:Name="RecipeImage"
+                   Source="{Binding ImageURL}"
+                   HeightRequest="200"
+                   Aspect="AspectFill"
+                   HorizontalOptions="FillAndExpand">
+                <Image.WidthRequest>
+                    <OnIdiom x:TypeArguments="x:Double">
+                        <!-- Fixed width for desktop/webpage -->
+                        <OnIdiom.Desktop>
+                            200
+                        </OnIdiom.Desktop>
+                    </OnIdiom>
+                </Image.WidthRequest>
+            </Image>
+            
+            <!-- Recipe Source and URL combined on the same line -->
+            <HorizontalStackLayout Padding="0,10,0,5" Spacing="5" VerticalOptions="Center">
+                <Label FontSize="Medium">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Source: " FontAttributes="Bold"/>
+                            <Span Text="{Binding Source}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <!-- Recipe Source URL -->
+                <Label Text="{Binding ShortenedSourceUrl}" 
+                       TextColor="Blue" 
+                       TextDecorations="Underline"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenSourceUrlCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+            
+            <!-- Recipe Category -->
+            <Label FontSize="Medium" Padding="0,10,0,5">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Category: " FontAttributes="Bold"/>
+                        <Span Text="{Binding Category}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+             <!-- Recipe Serving Size -->
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Center"
+                         Spacing="1"
+                         Padding="0,0,0,5">
+                
+                <!-- Serving Size Label -->
+                <Label FontSize="Medium"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Servings: " FontAttributes="Bold"/>
+                            <Span Text="{Binding Servings}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <!-- Plus and Minus Buttons -->
+                <StackLayout Orientation="Horizontal" Spacing="0" Padding="0" Margin="0" >
+                    <!-- Plus Button -->
+                    <Button x:Name="IncreaseServingsButton"
+                            ImageSource="add_icon_xsmall.png"
+                            BackgroundColor="Transparent"
+                            Padding="0"
+                            Margin="0"
+                            Command="{Binding IncreaseServingsCommand}"
+                            CommandParameter="{Binding .}" />
+
+                    <!-- Minus Button -->
+                    <Button x:Name="DecreaseServingsButton"
+                            ImageSource="minus_icon_xsmall.png"
+                            BackgroundColor="Transparent"
+                            Padding="0"
+                            Margin="0"
+                            Command="{Binding DecreaseServingsCommand}"
+                            CommandParameter="{Binding .}" />
+                </StackLayout>
+            </StackLayout>
+
+            <!-- Recipe Prep Time -->
+            <Label FontSize="Medium" Padding="0,0,0,10">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Prep Time: " FontAttributes="Bold" />
+                        <Span Text="{Binding PrepTime}" />
+                        <Span Text=" minutes" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <!-- Recipe Cook Time -->
+            <Label FontSize="Medium" Padding="0,0,0,10">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Cook Time: " FontAttributes="Bold" />
+                        <Span Text="{Binding CookTime}" />
+                        <Span Text=" minutes" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <!-- Recipe Total Time -->
+            <Label FontSize="Medium" Padding="0,0,0,10">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Total Time: " FontAttributes="Bold" />
+                        <Span Text="{Binding TotalTime}" />
+                        <Span Text=" minutes" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            
+            <Label Text="Ingredients" FontSize="Medium" FontAttributes="Bold" Padding="0,20,0,0"/>
+            <CollectionView ItemsSource="{Binding RecipeIngredients}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsSelected}"
+                                      Color="Black"/>
+                            <Label VerticalOptions="Center"
+                                   TextDecorations="{Binding IsSelected, Converter={StaticResource StrikeThroughConverter}}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Quantity}"
+                                              TextDecorations="{Binding IsSelected, Converter={StaticResource StrikeThroughConverter}}"/>
+                                        <Span Text=" "
+                                              TextDecorations="{Binding IsSelected, Converter={StaticResource StrikeThroughConverter}}"/>
+                                        <Span Text="{Binding Unit}"
+                                              TextDecorations="{Binding IsSelected, Converter={StaticResource StrikeThroughConverter}}"/>
+                                        <Span Text=" "
+                                              TextDecorations="{Binding IsSelected, Converter={StaticResource StrikeThroughConverter}}"/>
+                                        <Span Text="{Binding IngredientName}"
+                                              TextDecorations="{Binding IsSelected, Converter={StaticResource StrikeThroughConverter}}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            
+            <!-- Add Ingredients to Grocery List Button -->
+            <Button Text="Add Ingredients to Grocery List"
+                    BackgroundColor="Black"
+                    Margin="0, 10, 0 , 20"
+                    HorizontalOptions="Center"
+                    Clicked="OnAddIngredientsToGroceryListClicked"/>
+
+            <!-- Instructions Section -->
+            <Label Text="Instructions" FontSize="Medium" FontAttributes="Bold" Padding="0,20,0,0"/>
+            <CollectionView ItemsSource="{Binding Instructions}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" >
+                            <CheckBox IsChecked="{Binding IsCompleted}"
+                                      Color="Black"/>
+                            <Label Text="{Binding Description}"
+                                   LineBreakMode="WordWrap"
+                                   HorizontalOptions="FillAndExpand"
+                                   TextDecorations="{Binding IsCompleted, Converter={StaticResource StrikeThroughConverter}}"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:PrepPal.ViewModels"
+             xmlns:converters="clr-namespace:PrepPal.Converters"
+             x:Class="PrepPal.Views.GroceryListPage"
+             BackgroundColor="#F0F0F0"
+             Title="Grocery List">
+    
+    <ContentPage.Resources>
+        <converters:StrikeThroughConverter x:Key="StrikeThroughConverter" />
+        <converters:DateToDaysAgoConverter x:Key="DateToDaysAgoConverter" />
+    </ContentPage.Resources>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="AddToolbarItem"
+                     IconImageSource="add_icon.png"
+                     Clicked="OnAddButtonClicked" />
+        <ToolbarItem x:Name="DeleteToolbarItem"
+                     IconImageSource="delete_icon.png"
+                     Clicked="OnDeleteButtonClicked" />
+    </ContentPage.ToolbarItems>
+    
+    <ScrollView>
+        <VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding GroupedGroceryItems}" IsGrouped="True">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Key}" 
+                               FontAttributes="Bold"
+                               FontSize="Large"
+                               Padding="10"
+                               BackgroundColor="LightGray" />
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete"
+                                                   BackgroundColor="Red"
+                                                   Command="{Binding Path=BindingContext.DeleteItemCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                   CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="{Binding Name}" 
+                                           VerticalOptions="Center" 
+                                           HorizontalOptions="StartAndExpand"
+                                           TextDecorations="{Binding IsBought, Converter={StaticResource StrikeThroughConverter}}" />
+                                    
+                                    <Frame BackgroundColor="LightBlue"
+                                           CornerRadius="12"
+                                           Padding="5"
+                                           Margin="5,0,0,0"
+                                           VerticalOptions="Center"
+                                           HasShadow="False"
+                                           IsVisible="{Binding IsInGroceryList}">
+                                        <Label Text="{Binding LastBoughtDate, StringFormat='Bought {0}', Converter={StaticResource DateToDaysAgoConverter}}"
+                                               TextColor="Black"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center" />
+                                    </Frame>
+                                    
+                                    <CheckBox IsChecked="{Binding IsBought}"
+                                              Color="Black"
+                                              VerticalOptions="Center" />
+                                </StackLayout>
+                            </SwipeView>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Button Text="Add Bought Groceries to Fridge"
+                    BackgroundColor="Black"
+                    TextColor="White"
+                    HorizontalOptions="Center"
+                    Margin="10,20,10,10"
+                    Command="{Binding AddToFridgeCommand}" />
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

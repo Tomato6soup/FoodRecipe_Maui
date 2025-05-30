@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrepPal.Views.MealPlanPage"
+             BackgroundColor="#F0F0F0"
+             Title="Meal Plan">
+    <ScrollView>
+        <VerticalStackLayout>
+
+            <!-- Monday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,0,10,0">
+                <Label 
+                    Text="Monday" 
+                    FontSize="Large"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="MondayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Monday" />
+            </Grid>
+            <VerticalStackLayout x:Name="MondayStack" />
+
+            <!-- Tuesday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,10,10,0">
+                <Label 
+                    Text="Tuesday" 
+                    FontSize="Large" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="TuesdayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Tuesday" />
+            </Grid>
+            <VerticalStackLayout x:Name="TuesdayStack" />
+
+            <!-- Wednesday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,10,10,0">
+                <Label 
+                    Text="Wednesday" 
+                    FontSize="Large" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="WednesdayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Wednesday" />
+            </Grid>
+            <VerticalStackLayout x:Name="WednesdayStack" />
+
+            <!-- Thursday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,10,10,0">
+                <Label 
+                    Text="Thursday" 
+                    FontSize="Large" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="ThursdayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Thursday" />
+            </Grid>
+            <VerticalStackLayout x:Name="ThursdayStack" />
+
+            <!-- Friday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,10,10,0">
+                <Label 
+                    Text="Friday" 
+                    FontSize="Large" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="FridayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Friday" />
+            </Grid>
+            <VerticalStackLayout x:Name="FridayStack" />
+
+            <!-- Saturday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,10,10,0">
+                <Label 
+                    Text="Saturday" 
+                    FontSize="Large" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="SaturdayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Saturday" />
+            </Grid>
+            <VerticalStackLayout x:Name="SaturdayStack" />
+
+            <!-- Sunday -->
+            <Grid ColumnDefinitions="*, Auto" Padding="10,10,10,0">
+                <Label 
+                    Text="Sunday" 
+                    FontSize="Large" 
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" />
+                <Button x:Name="SundayAddMealPlanButton"
+                        ImageSource="add_icon_xsmall.png"
+                        BackgroundColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        HorizontalOptions="End"
+                        Clicked="OnAddMealClicked"
+                        CommandParameter="Sunday" />
+            </Grid>
+            <VerticalStackLayout x:Name="SundayStack" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

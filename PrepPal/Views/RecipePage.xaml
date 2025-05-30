@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:PrepPal"
+             x:Class="PrepPal.Views.RecipePage"
+             BackgroundColor="#F0F0F0"
+             Title="Recipes">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="AddToolbarItem"
+                     IconImageSource="add_icon.png"
+                     Clicked="OnAddNewRecipeClicked"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="20">
+        <CollectionView ItemsSource="{Binding Recipes}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}"
+                        SelectionChanged="OnRecipeSelected">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2"
+                                 VerticalItemSpacing="5"
+                                 HorizontalItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Black"
+                           BackgroundColor="#F9F6EE"
+                           CornerRadius="15"
+                           Padding="0"
+                           Margin="0"
+                           HasShadow="False"
+                           HeightRequest="225"
+                           WidthRequest="150" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Start">
+                        <StackLayout HorizontalOptions="Center" 
+                                     VerticalOptions="Start"
+                                     Spacing="5">
+                            <Frame Padding="5" HasShadow="False" BorderColor="Transparent" CornerRadius="15">
+                                <Image Source="{Binding ImageURL}" 
+                                       WidthRequest="150" 
+                                       HeightRequest="100" 
+                                       Aspect="AspectFill"/>
+                            </Frame>
+                            <Label Text="{Binding Name}" 
+                                   FontSize="Small"
+                                   FontAttributes="Bold" 
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                            <Label Text="{Binding Category}" 
+                                   FontSize="Small" 
+                                   HorizontalOptions="Center" />
+                            <Label FontSize="Small"
+                                   HorizontalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Serving size: " />
+                                        <Span Text="{Binding Servings}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

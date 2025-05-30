@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PrepPal.Views.FavoriteRecipePage"
+             BackgroundColor="#F0F0F0"
+             Title="Favorite Recipes">
+    <ScrollView>
+        <StackLayout Padding="20">
+            <CollectionView ItemsSource="{Binding FavoriteRecipes}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}"
+                            SelectionChanged="OnRecipeSelected">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="2"
+                                     VerticalItemSpacing="5"
+                                     HorizontalItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Black"
+                               BackgroundColor="#F9F6EE"
+                               CornerRadius="15"
+                               Padding="1"
+                               Margin="1"
+                               HasShadow="False"
+                               HeightRequest="225"
+                               WidthRequest="150" 
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+                            <StackLayout HorizontalOptions="Center" 
+                                         VerticalOptions="Start"
+                                         Spacing="10">
+                                <Frame Padding="0" HasShadow="False" BorderColor="Transparent" CornerRadius="15">
+                                    <Image Source="{Binding ImageURL}" 
+                                           WidthRequest="150" 
+                                           HeightRequest="100" 
+                                           Aspect="AspectFill"/>
+                                </Frame>
+                                
+                                <Label Text="{Binding Name}" 
+                                       FontSize="Medium" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center" />
+                                <Label Text="{Binding Category}" 
+                                       FontSize="Small" 
+                                       HorizontalOptions="Center" />
+                                <Label FontSize="Small"
+                                       HorizontalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Serving size: " />
+                                            <Span Text="{Binding Servings}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+
+    
+</ContentPage>

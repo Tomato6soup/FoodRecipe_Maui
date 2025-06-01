@@ -6,10 +6,10 @@ public class Ingredient : INotifyPropertyChanged
 {
     private bool _isSelected;
     
-    public string IngredientId { get; set; }
-    public string Name { get; set; }
-    public string Aisle { get; set; }
-    public string StorageLocation { get; set; }
+    public string? IngredientId { get; set; }
+    public string? Name { get; set; }
+    public string? Aisle { get; set; }
+    public string? StorageLocation { get; set; }
 
     public bool IsSelected
     {
@@ -23,7 +23,7 @@ public class Ingredient : INotifyPropertyChanged
             }
         }
     }
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -8,13 +8,13 @@ public class RecipeIngredient : INotifyPropertyChanged
     
     public int RecipeIngredientId { get; set; } 
     public int RecipeId { get; set; } 
-    public Recipe Recipe { get; set; } 
+    public Recipe? Recipe { get; set; } 
     public int IngredientId { get; set; }
     public decimal Quantity { get; set; }
-    public string Unit { get; set; }
-    public string Aisle { get; set; }
-    public string StorageLocation { get; set; }
-    public string IngredientName { get; set; }
+    public string? Unit { get; set; }
+    public  string? Aisle { get; set; }
+    public string? StorageLocation { get; set; }
+    public string? IngredientName { get; set; }
     
     public bool IsSelected
     {
@@ -28,7 +28,7 @@ public class RecipeIngredient : INotifyPropertyChanged
             }
         }
     }
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

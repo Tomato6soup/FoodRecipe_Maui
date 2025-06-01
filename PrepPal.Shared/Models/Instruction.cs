@@ -7,9 +7,9 @@ public class Instruction : INotifyPropertyChanged
     private bool _isCompleted;
     public int InstructionId { get; set; }
     public int RecipeId { get; set; }
-    public Recipe Recipe { get; set; }
+    public Recipe? Recipe { get; set; }
     public int StepNumber { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public bool IsCompleted
     {
@@ -21,7 +21,7 @@ public class Instruction : INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

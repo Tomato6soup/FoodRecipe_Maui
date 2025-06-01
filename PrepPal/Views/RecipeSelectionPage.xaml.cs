@@ -4,7 +4,7 @@ namespace PrepPal.Views;
 public partial class RecipeSelectionPage : ContentPage
 {
     public string Day { get; set; }
-    private readonly PrepPalDbContext _dbContext;
+    private readonly PrepPalDbContext? _dbContext;
 
     public RecipeSelectionPage()
     {

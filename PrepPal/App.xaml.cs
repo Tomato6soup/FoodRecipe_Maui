@@ -2,12 +2,12 @@
 {
     public partial class App : Application
     {
-        public static GroceryListViewModel GroceryListViewModel { get; private set; }
-        public static FridgeListViewModel FridgeListViewModel { get; private set; }
-        public static FavoriteRecipesViewModel FavoriteRecipesViewModel { get; private set; }
-        private static SharedService _sharedService;
+        public static GroceryListViewModel? GroceryListViewModel { get; private set; }
+        public static FridgeListViewModel? FridgeListViewModel { get; private set; }
+        public static FavoriteRecipesViewModel? FavoriteRecipesViewModel { get; private set; }
+        private static SharedService? _sharedService;
         
-        private static NpgsqlConnection _connection;
+        private static NpgsqlConnection? _connection;
         public App()
         {
             InitializeComponent();

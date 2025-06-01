@@ -18,7 +18,6 @@ global using Microsoft.Maui.Media;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Maui.Graphics;
 global using Microsoft.Maui.Storage;
 global using Microsoft.Maui.ApplicationModel;
 

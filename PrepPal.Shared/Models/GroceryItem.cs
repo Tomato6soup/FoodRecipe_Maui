@@ -5,9 +5,9 @@ namespace PrepPal.Models
 {
     public class GroceryItem : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string StorageLocation { get; set; }
-        public string Aisle { get; set; }
+        public string? Name { get; set; }
+        public string? StorageLocation { get; set; }
+        public string? Aisle { get; set; }
 
         private bool _isBought;
         public bool IsBought
@@ -51,7 +51,7 @@ namespace PrepPal.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

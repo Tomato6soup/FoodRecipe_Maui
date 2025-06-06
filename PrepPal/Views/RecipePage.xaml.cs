@@ -17,7 +17,7 @@ public partial class RecipePage : ContentPage
 
 		// Use the same PostgreSQL configuration
 		var options = new DbContextOptionsBuilder<PrepPalDbContext>()
-			.UseNpgsql("Host=localhost;Database=preppaldb;Username=bensmith;Password=bensmith")
+			.UseNpgsql("Host=localhost;Database=RecipeDB;Username=postgres;Password=1801810b")
 			.Options;
 
 		var dbContext = new PrepPalDbContext(options);

@@ -20,7 +20,7 @@ namespace PrepPal
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
             
-            var connectionString = "Host=localhost;Database=preppaldb;Username=bensmith;Password=bensmith";
+            var connectionString = "Host=localhost;Database=RecipeDB;Username=postgres;Password=1801810b";
 
             builder.Services.AddDbContext<PrepPalDbContext>(options =>
             {

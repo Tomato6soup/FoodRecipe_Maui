@@ -32,7 +32,7 @@
         }
         private void InitializeDatabaseConnection()
         {
-            string connectionString = "Host=localhost;Database=preppaldb;Username=bensmith;Password=bensmith";
+            string connectionString = "Host=localhost;Database=RecipeDB;Username=postgres;Password=1801810b";
             _connection = new NpgsqlConnection(connectionString);
             try
             {

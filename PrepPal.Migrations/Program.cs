@@ -41,7 +41,7 @@ namespace PrepPal.Migrations
                 {
                     // Register the DbContext with the connection string
                     services.AddDbContext<PrepPalDbContext>(options =>
-                        options.UseNpgsql("Host=localhost;Database=preppaldb;Username=bensmith;Password=bensmith",
+                        options.UseNpgsql("Host=localhost;Database=RecipeDB;Username=postgres;Password=1801810b",
                             b=> b.MigrationsAssembly("PrepPal.Migrations")));
                 });
     }

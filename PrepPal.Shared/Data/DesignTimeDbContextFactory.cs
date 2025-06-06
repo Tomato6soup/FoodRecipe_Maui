@@ -17,7 +17,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<PrepPalDbC
             .Build();
 
         var builder = new DbContextOptionsBuilder<PrepPalDbContext>();
-        var connectionString = "Server=localhost;Database=RecipeDB;Trusted_Connection=True";
+        var connectionString = "Host=localhost;Database=RecipeDB;Username=postgres;Password=1801810b";
 
         builder.UseNpgsql(connectionString);
 

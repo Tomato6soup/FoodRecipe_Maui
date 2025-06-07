@@ -5,7 +5,7 @@
         private Recipe _selectedRecipe;
         private readonly PrepPalDbContext _dbContext;
         private bool _isAllRecipesSelected = true;
-        
+
         // Observable collections for the RecipeSelectionPage
         public ObservableCollection<Recipe> AllRecipes { get; set; }
         public ObservableCollection<Recipe> FilteredRecipes { get; set; }
@@ -30,7 +30,7 @@
                 return new ObservableCollection<Recipe>(Recipes.Where(r => r.IsFavorite));
             }
         }
-        
+
         public ICommand IncreaseServingsCommand { get; set; }
         public ICommand DecreaseServingsCommand { get; set; }
         public ICommand ToggleFavoriteCommand { get; set; }
@@ -55,7 +55,7 @@
         public RecipeViewModel(PrepPalDbContext dbContext)
         {
             _dbContext = dbContext;
-            
+
             ToggleFavoriteCommand = new Command<Recipe>(ToggleFavorite);
             IncreaseServingsCommand = new Command(IncreaseServings);
             DecreaseServingsCommand = new Command(DecreaseServings);
@@ -67,7 +67,7 @@
             Recipes = new ObservableCollection<Recipe>();
             AllRecipes = new ObservableCollection<Recipe>();
             FilteredRecipes = new ObservableCollection<Recipe>();
-            
+
             LoadRecipes();
         }
 
@@ -76,246 +76,359 @@
             try
             {
                 AllRecipes.Clear();
-                
+
                 var hardcodedRecipes = new ObservableCollection<Recipe>
                 {
+
+new Recipe
+{
+    Name = "Spaghetti Carbonara",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "Spaghetti", Quantity = 12, Unit = "oz", Aisle = "Pasta", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Pancetta or guanciale, diced", Quantity = 4, Unit = "oz", Aisle = "Meat", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Egg yolks", Quantity = 4, Unit = "pcs", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Parmesan cheese, grated", Quantity = 0.75m, Unit = "cup", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Cook spaghetti in salted boiling water until al dente." },
+        new Instruction { StepNumber = 2, Description = "Sauté pancetta in a skillet until crisp." },
+        new Instruction { StepNumber = 3, Description = "Whisk egg yolks and Parmesan in a bowl." },
+        new Instruction { StepNumber = 4, Description = "Drain pasta, reserving some water. Toss pasta with pancetta." },
+        new Instruction { StepNumber = 5, Description = "Remove from heat, add egg mixture, and toss quickly. Add pasta water if needed." },
+        new Instruction { StepNumber = 6, Description = "Season with black pepper and serve immediately." }
+    },
+    Category = "Main Dish",
+    Servings = 4,
+    PrepTime = 10,
+    CookTime = 20,
+    TotalTime = 30,
+    Source = "Italian Classic",
+    SourceURL = "https://www.giallozafferano.com/recipes/Spaghetti-Carbonara.html",
+    ImageURL = "https://www.savoryexperiments.com/wp-content/uploads/2019/01/Carbonara-3.jpg"
+},
+
+// Italian Recipe 2: Margherita Pizza
+new Recipe
+{
+    Name = "Pizza Margherita",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "Pizza dough", Quantity = 1, Unit = "lb", Aisle = "Bakery", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Tomato sauce", Quantity = 0.5m, Unit = "cup", Aisle = "Canned Goods", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Fresh mozzarella, sliced", Quantity = 8, Unit = "oz", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Fresh basil leaves", Quantity = 0, Unit = "handful", Aisle = "Produce", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Olive oil", Quantity = 1, Unit = "tbsp", Aisle = "Oils", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Preheat oven to 500°F (260°C)." },
+        new Instruction { StepNumber = 2, Description = "Stretch dough onto a pizza stone or baking sheet." },
+        new Instruction { StepNumber = 3, Description = "Spread tomato sauce over dough. Top with mozzarella slices." },
+        new Instruction { StepNumber = 4, Description = "Bake for 10-12 minutes until crust is golden and cheese is bubbly." },
+        new Instruction { StepNumber = 5, Description = "Top with fresh basil and drizzle with olive oil before serving." }
+    },
+    Category = "Main Dish",
+    Servings = 2,
+    PrepTime = 15,
+    CookTime = 12,
+    TotalTime = 27,
+    Source = "Italian Classic",
+    SourceURL = "https://www.giallozafferano.com/recipes/Pizza-Margherita.html",
+    ImageURL = "https://images.ricardocuisine.com/services/recipes/pizza.jpg"
+},
+
+// Italian Recipe 3: Tiramisu
+new Recipe
+{
+    Name = "Tiramisu",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "Ladyfingers", Quantity = 24, Unit = "pcs", Aisle = "Bakery", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Mascarpone cheese", Quantity = 8, Unit = "oz", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Egg yolks", Quantity = 4, Unit = "pcs", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Sugar", Quantity = 0.5m, Unit = "cup", Aisle = "Baking", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Espresso, cooled", Quantity = 1, Unit = "cup", Aisle = "Beverages", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Cocoa powder", Quantity = 0, Unit = "for dusting", Aisle = "Baking", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Beat egg yolks with sugar until thick and pale." },
+        new Instruction { StepNumber = 2, Description = "Fold in mascarpone until smooth." },
+        new Instruction { StepNumber = 3, Description = "Dip ladyfingers in espresso and layer in a dish." },
+        new Instruction { StepNumber = 4, Description = "Spread half the mascarpone mixture over ladyfingers. Repeat layers." },
+        new Instruction { StepNumber = 5, Description = "Dust with cocoa powder and chill for at least 4 hours before serving." }
+    },
+    Category = "Dessert",
+    Servings = 6,
+    PrepTime = 25,
+    CookTime = 0,
+    TotalTime = 25,
+    Source = "Italian Classic",
+    SourceURL = "https://www.giallozafferano.com/recipes/Tiramisu.html",
+    ImageURL = "https://www.gimmesomeoven.com/wp-content/uploads/2020/07/Tiramisu-Recipe-Cover.jpg"
+},
+
+// Armenian Recipe 1: Khorovats (Armenian BBQ)
+new Recipe
+{
+    Name = "Khorovats (Armenian BBQ)",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "Pork shoulder, cubed", Quantity = 2, Unit = "lb", Aisle = "Meat", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Onion, sliced", Quantity = 2, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Bell pepper, sliced", Quantity = 2, Unit = "pcs", Aisle = "Produce", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Tomato, sliced", Quantity = 2, Unit = "pcs", Aisle = "Produce", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Marinate pork with onions, salt, and pepper for several hours." },
+        new Instruction { StepNumber = 2, Description = "Thread pork and vegetables onto skewers." },
+        new Instruction { StepNumber = 3, Description = "Grill over hot coals, turning occasionally, until meat is cooked through." },
+        new Instruction { StepNumber = 4, Description = "Serve hot with lavash and fresh herbs." }
+    },
+    Category = "Main Dish",
+    Servings = 6,
+    PrepTime = 30,
+    CookTime = 30,
+    TotalTime = 60,
+    Source = "Armenian Family Recipe",
+    SourceURL = "https://www.armeniandish.com/khorovats-armenian-bbq/",
+    ImageURL = "https://phoenixtour.org/wp-content/uploads/2021/12/10-KHOROVATS.jpg"
+},
+
+// Armenian Recipe 2: Lavash (Armenian Flatbread)
+new Recipe
+{
+    Name = "Lavash (Armenian Flatbread)",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "All-purpose flour", Quantity = 3, Unit = "cups", Aisle = "Baking", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Water", Quantity = 1, Unit = "cup", Aisle = "Beverages", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Salt", Quantity = 1, Unit = "tsp", Aisle = "Spices", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Mix flour, water, and salt to form a soft dough. Knead until smooth." },
+        new Instruction { StepNumber = 2, Description = "Let dough rest for 30 minutes." },
+        new Instruction { StepNumber = 3, Description = "Divide dough, roll into thin sheets." },
+        new Instruction { StepNumber = 4, Description = "Bake on a hot griddle or in a tandoor until lightly browned." }
+    },
+    Category = "Bread",
+    Servings = 8,
+    PrepTime = 20,
+    CookTime = 10,
+    TotalTime = 30,
+    Source = "Armenian Family Recipe",
+    SourceURL = "https://www.armeniandish.com/lavash-armenian-flatbread/",
+    ImageURL = "https://vidarbergum.com/wp-content/uploads/2023/08/armenian-lavash-wrap-bread-4.jpg"
+},
+
+// Armenian Recipe 3: Harissa (Armenian Wheat & Chicken Porridge)
+new Recipe
+{
+    Name = "Harissa (Armenian Wheat & Chicken Porridge)",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "Chicken, whole", Quantity = 1, Unit = "pcs", Aisle = "Meat", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Shelled wheat", Quantity = 2, Unit = "cups", Aisle = "Grains", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Butter", Quantity = 2, Unit = "tbsp", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Boil chicken in water until tender. Remove bones and shred meat." },
+        new Instruction { StepNumber = 2, Description = "Add shelled wheat to broth and cook until very soft, stirring often." },
+        new Instruction { StepNumber = 3, Description = "Return chicken to pot, add butter and salt. Cook until thick and creamy." },
+        new Instruction { StepNumber = 4, Description = "Serve hot, drizzled with extra butter if desired." }
+    },
+    Category = "Main Dish",
+    Servings = 8,
+    PrepTime = 20,
+    CookTime = 120,
+    TotalTime = 140,
+    Source = "Armenian Family Recipe",
+    SourceURL = "https://www.armeniandish.com/harissa-armenian-wheat-chicken-porridge/",
+    ImageURL = "https://soulandstreusel.com/wp-content/uploads/2020/05/CgWNma9RmW7ynwRS6LNbg_thumb_2eb7-735x747.jpg"
+},
+
+// Armenian Recipe 4: Gata (Armenian Sweet Bread)
+new Recipe
+{
+    Name = "Gata (Armenian Sweet Bread)",
+    RecipeIngredients = new List<RecipeIngredient>
+    {
+        new RecipeIngredient { IngredientName = "All-purpose flour", Quantity = 3, Unit = "cups", Aisle = "Baking", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Butter, softened", Quantity = 1, Unit = "cup", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Sugar", Quantity = 1, Unit = "cup", Aisle = "Baking", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Eggs", Quantity = 2, Unit = "pcs", Aisle = "Dairy", StorageLocation = "Fridge" },
+        new RecipeIngredient { IngredientName = "Baking powder", Quantity = 1, Unit = "tsp", Aisle = "Baking", StorageLocation = "Pantry" },
+        new RecipeIngredient { IngredientName = "Vanilla extract", Quantity = 1, Unit = "tsp", Aisle = "Baking", StorageLocation = "Pantry" }
+    },
+    Instructions = new List<Instruction>
+    {
+        new Instruction { StepNumber = 1, Description = "Mix flour and baking powder. Beat butter and sugar until fluffy." },
+        new Instruction { StepNumber = 2, Description = "Add eggs and vanilla to butter mixture. Gradually add flour mixture to form dough." },
+        new Instruction { StepNumber = 3, Description = "Roll dough, fill with sweet filling if desired, and shape into rounds." },
+        new Instruction { StepNumber = 4, Description = "Bake at 350°F (175°C) for 25-30 minutes until golden." }
+    },
+    Category = "Dessert",
+    Servings = 10,
+    PrepTime = 30,
+    CookTime = 30,
+    TotalTime = 60,
+    Source = "Armenian Family Recipe",
+    SourceURL = "https://www.armeniandish.com/gata-armenian-sweet-bread/",
+    ImageURL = "https://mission-food.com/wp-content/uploads/2015/12/Gata-17-1024x683.jpg"
+},
+                    
+
+                    // Ukrainian Recipe 1: Borscht
                     new Recipe
                     {
-                        Name = "Chicken Alfredo",
+                        Name = "Borscht (Ukrainian Beet Soup)",
                         RecipeIngredients = new List<RecipeIngredient>
                         {
-                            new RecipeIngredient { IngredientName = "Fettuccine", Quantity = 1, Unit = "lb", Aisle = "Pasta", StorageLocation  = "Pantry"},
-                            new RecipeIngredient { IngredientName = "Heavy cream", Quantity = 2, Unit = "cups", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Grated Parmesan", Quantity = 1, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Garlic, minced", Quantity = 2, Unit = "cloves", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Butter", Quantity = 0.5m, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Salt", Quantity = 0.5m, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Pepper", Quantity = 0.25m, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Nutmeg", Quantity = 0.25m, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Chicken breast, cooked and sliced", Quantity = 1, Unit = "lb", Aisle = "Meat", StorageLocation  = "Fridge" }
+                            new RecipeIngredient { IngredientName = "Beets, peeled and grated", Quantity = 3, Unit = "pcs", Aisle = "Produce", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Carrot, grated", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Potatoes, diced", Quantity = 3, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Cabbage, shredded", Quantity = 0.5m, Unit = "head", Aisle = "Produce", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Onion, chopped", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Tomato paste", Quantity = 2, Unit = "tbsp", Aisle = "Canned Goods", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Garlic, minced", Quantity = 2, Unit = "cloves", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Vegetable oil", Quantity = 2, Unit = "tbsp", Aisle = "Oils", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Beef broth", Quantity = 6, Unit = "cups", Aisle = "Canned Goods", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Dill, chopped", Quantity = 2, Unit = "tbsp", Aisle = "Produce", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Sour cream", Quantity = 0, Unit = "for serving", Aisle = "Dairy", StorageLocation = "Fridge" }
                         },
                         Instructions = new List<Instruction>
                         {
-                            new Instruction
-                                { StepNumber = 1, Description = "Cook fettuccine according to package directions." },
-                            new Instruction
-                            {
-                                StepNumber = 2,
-                                Description =
-                                    "In a saucepan, combine cream, Parmesan, garlic, butter, salt, pepper, and nutmeg."
-                            },
-                            new Instruction
-                                { StepNumber = 3, Description = "Cook over medium heat until sauce thickens." },
-                            new Instruction { StepNumber = 4, Description = "Add chicken and heat through." },
-                            new Instruction { StepNumber = 5, Description = "Serve over fettuccine." }
+                            new Instruction { StepNumber = 1, Description = "Heat oil in a large pot. Sauté onion, carrot, and beets until soft." },
+                            new Instruction { StepNumber = 2, Description = "Add tomato paste and garlic, cook for 2 minutes." },
+                            new Instruction { StepNumber = 3, Description = "Pour in beef broth, add potatoes and cabbage. Bring to a boil." },
+                            new Instruction { StepNumber = 4, Description = "Reduce heat and simmer until vegetables are tender, about 20 minutes." },
+                            new Instruction { StepNumber = 5, Description = "Season with salt, pepper, and dill. Serve hot with sour cream." }
                         },
-                        Category = "Main Dish",
-                        Servings = 4,
-                        PrepTime = 10,
-                        CookTime = 20,
-                        TotalTime = 30,
-                        Source = "Mom",
-                        SourceURL = "example.com",
-                        ImageURL = "chicken_alfredo.jpg"
-                    },
-                    new Recipe
-                    {
-                        Name = "Chocolate Chip Cookies",
-                        RecipeIngredients = new List<RecipeIngredient>
-                        {
-                            new RecipeIngredient { IngredientName = "Flour", Quantity = 2.25m, Unit = "cups", Aisle = "Baking", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Baking soda", Quantity = 1, Unit = "tsp", Aisle = "Baking", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Salt", Quantity = 1, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Butter, softened", Quantity = 1, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Sugar", Quantity = 0.75m, Unit = "cup", Aisle = "Baking", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Brown sugar", Quantity = 0.75m, Unit = "cup", Aisle = "Baking", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Vanilla", Quantity = 1, Unit = "tsp", Aisle = "Baking", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Eggs", Quantity = 2, Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Chocolate chips", Quantity = 2, Unit = "cups", Aisle = "Baking", StorageLocation  = "Pantry" }
-                        },
-                        Instructions = new List<Instruction>
-                        {
-                            new Instruction { StepNumber = 1, Description = "Preheat oven to 375°F." },
-                            new Instruction
-                            {
-                                StepNumber = 2, Description = "In a small bowl, combine flour, baking soda, and salt."
-                            },
-                            new Instruction
-                            {
-                                StepNumber = 3,
-                                Description = "In a large bowl, cream butter, sugar, brown sugar, and vanilla."
-                            },
-                            new Instruction
-                            {
-                                StepNumber = 4,
-                                Description = "Add eggs one at a time, beating well after each addition."
-                            },
-                            new Instruction { StepNumber = 5, Description = "Gradually add flour mixture." },
-                            new Instruction { StepNumber = 6, Description = "Stir in chocolate chips." },
-                            new Instruction
-                            {
-                                StepNumber = 7,
-                                Description = "Drop by rounded tablespoonfuls onto ungreased cookie sheet."
-                            },
-                            new Instruction
-                                { StepNumber = 8, Description = "Bake for 9-11 minutes or until golden brown." }
-                        },
-                        Category = "Dessert",
-                        Servings = 4,
-                        PrepTime = 10,
-                        CookTime = 10,
-                        TotalTime = 20,
-                        Source = "Grandma",
-                        SourceURL = "example.com",
-                        ImageURL = "cookies.jpg"
-                    },
-                    new Recipe
-                    {
-                        Name = "Spicy Vodka Pasta",
-                        RecipeIngredients = new List<RecipeIngredient>
-                        {
-                            new RecipeIngredient { IngredientName = "Butter (vegan or regular)", Quantity = 3, Unit = "tbsp", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Shallots, chopped", Quantity = 2, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Garlic, minced", Quantity = 2, Unit = "cloves", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Tomato paste", Quantity = 0.25m, Unit = "cup", Aisle = "Canned Goods", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Vodka", Quantity = 1, Unit = "tbsp", Aisle = "Liquor", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Heavy cream", Quantity = 0.5m, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Chili flakes", Quantity = 1, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Salt and pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Rigatoni (dry)", Quantity = 225, Unit = "g", Aisle = "Pasta", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Parmesan cheese", Quantity = 0.25m, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Fresh basil", Quantity = 0, Unit = "for garnish", Aisle = "Spices", StorageLocation  = "Pantry" }
-                        },
-                        Instructions = new List<Instruction>
-                        {
-                            new Instruction { StepNumber = 1, Description = "Bring a large pot of water to a boil and cook pasta according to package directions. Reserve 1 cup pasta water before draining. While pasta is cooking, make the vodka sauce." },
-                            new Instruction { StepNumber = 2, Description = "In a large saucepan, heat the butter, garlic and shallot over medium heat. Cook until softened, 3-5 minutes." },
-                            new Instruction { StepNumber = 3, Description = "Add tomato paste, cook until the sauce is darker and a bit caramelized, 2-3 minutes." },
-                            new Instruction { StepNumber = 4, Description = "Add in vodka and cook it until evaporated." },
-                            new Instruction { StepNumber = 5, Description = "Then add heavy cream and 1 tsp chili flakes. Keep stirring until combined and season to taste with salt and pepper." },
-                            new Instruction { StepNumber = 6, Description = "If pasta is not done cooking yet, remove sauce from the heat." },
-                            new Instruction { StepNumber = 7, Description = "When pasta is done cooking, add 1/2 cup reserved pasta water to the vodka sauce and 1 tbsp butter. Stir over medium heat until butter is melted and sauce is smooth and creamy – add another ¼ cup pasta water if needed." },
-                            new Instruction { StepNumber = 8, Description = "Add strained pasta and ¼ cup Parmesan cheese and stir. Remove from heat and adjust seasoning with more salt and pepper if needed." },
-                            new Instruction { StepNumber = 9, Description = "Garnish with fresh basil and more Parmesan cheese if desired." }
-                        },
-                        Category = "Main Dish",
-                        Servings = 2,
-                        PrepTime = 10,
-                        CookTime = 20,
-                        TotalTime = 30,
-                        Source = "Food By Maria",
-                        SourceURL = "https://www.foodbymaria.com/spicy-vodka-pasta/",
-                        ImageURL = "vodka_pasta.jpg"
-                    },
-                    new Recipe
-                    {
-                        Name = "Chicken Enchiladas",
-                        RecipeIngredients = new List<RecipeIngredient>
-                        {
-                            new RecipeIngredient { IngredientName = "Tomatillos, husked and rinsed", Quantity = 9, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "White onion, medium", Quantity = 0.5m, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Serrano chile", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Yellow chile (guero)", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Garlic cloves", Quantity = 2, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Fresh cilantro leaves, loosely packed", Quantity = 0.5m, Unit = "cup", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Freshly ground black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Vegetable oil", Quantity = 0.25m, Unit = "cup", Aisle = "Oils", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Corn tortillas (6-inch)", Quantity = 6, Unit = "pcs", Aisle = "Bread", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Rotisserie chicken breasts, skinned and shredded", Quantity = 1.5m, Unit = "cups", Aisle = "Meat", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Mexican crema or sour cream", Quantity = 0.5m, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Shredded Monterey Jack cheese", Quantity = 1, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" }
-                        },
-                        Instructions = new List<Instruction>
-                        {
-                            new Instruction { StepNumber = 1, Description = "Preheat the oven to 350°F." },
-                            new Instruction { StepNumber = 2, Description = "Put the tomatillos, onion, serrano, yellow chile, and 3/4 cup water in a medium saucepan. Bring to a boil over medium-high heat." },
-                            new Instruction { StepNumber = 3, Description = "Cover and boil until the tomatillos turn olive-green, about 10 minutes." },
-                            new Instruction { StepNumber = 4, Description = "Transfer the tomatillos, onion, and chiles to a blender. Add the garlic and cilantro and blend until smooth. Season with salt and pepper." },
-                            new Instruction { StepNumber = 5, Description = "Heat the oil in a small skillet over medium-high heat. Fry the tortillas until golden but still pliable, about 10 seconds per side. Transfer to paper towels to drain." },
-                            new Instruction { StepNumber = 6, Description = "Put the tortillas on a work surface. Divide the shredded chicken evenly among the tortillas and roll up each like a cigar." },
-                            new Instruction { StepNumber = 7, Description = "Spread 1/3 cup sauce in a 9x13-inch glass baking dish. Arrange the enchiladas, seam-side down, snugly inside the dish." },
-                            new Instruction { StepNumber = 8, Description = "Pour the remaining sauce over the enchiladas. Drizzle with Mexican crema and sprinkle cheese all over." },
-                            new Instruction { StepNumber = 9, Description = "Bake until the cheese melts and starts to brown in spots, about 30 minutes. Serve immediately." }
-                        },
-                        Category = "Main Dish",
-                        Servings = 4,
-                        PrepTime = 25,
+                        Category = "Soup",
+                        Servings = 6,
+                        PrepTime = 20,
                         CookTime = 40,
-                        TotalTime = 65,
-                        Source = "Food Network",
-                        SourceURL = "https://www.foodnetwork.com/recipes/marcela-valladolid/chicken-enchiladas-recipe-1924424",
-                        ImageURL = "chicken_enchiladas.png"
+                        TotalTime = 60,
+                        Source = "Ukrainian Family Recipe",
+                        SourceURL = "https://ukrainian-recipes.com/borscht.html",
+                        ImageURL = "https://cdn.pickuplimes.com/cache/aa/5f/aa5f79401e4e89308b3c35b18fa23cbf.jpg"
                     },
+
+                    // Ukrainian Recipe 2: Varenyky (Pierogi)
                     new Recipe
                     {
-                        Name = "Slow Cooker Cheesy Breakfast Potatoes",
+                        Name = "Varenyky (Ukrainian Dumplings)",
                         RecipeIngredients = new List<RecipeIngredient>
                         {
-                            new RecipeIngredient { IngredientName = "Russet potatoes, peeled and diced", Quantity = 3, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Red bell pepper, diced", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Green bell pepper, diced", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Onion, diced", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Smoked andouille chicken sausage, thinly sliced", Quantity = 12.8m, Unit = "oz", Aisle = "Meat", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Shredded cheddar cheese", Quantity = 1.5m, Unit = "cups", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Sour cream", Quantity = 0.5m, Unit = "cup", Aisle = "Dairy", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Dried oregano", Quantity = 0.25m, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Dried basil", Quantity = 0.25m, Unit = "tsp", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Condensed cream of chicken soup", Quantity = 10.75m, Unit = "oz", Aisle = "Canned Goods", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Kosher salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Freshly ground black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Fresh parsley leaves, chopped", Quantity = 2, Unit = "tbsp", Aisle = "Produce", StorageLocation  = "Fridge" }
+                            new RecipeIngredient { IngredientName = "All-purpose flour", Quantity = 2, Unit = "cups", Aisle = "Baking", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Egg", Quantity = 1, Unit = "pcs", Aisle = "Dairy", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Water", Quantity = 0.5m, Unit = "cup", Aisle = "Beverages", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Salt", Quantity = 0.5m, Unit = "tsp", Aisle = "Spices", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Potatoes, peeled and diced", Quantity = 3, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Onion, chopped", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Butter", Quantity = 2, Unit = "tbsp", Aisle = "Dairy", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Farmer's cheese", Quantity = 1, Unit = "cup", Aisle = "Dairy", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" }
                         },
                         Instructions = new List<Instruction>
                         {
-                            new Instruction { StepNumber = 1, Description = "Place potatoes, bell peppers, onion, chicken sausage, cheese, sour cream, oregano and basil into a 6-qt slow cooker." },
-                            new Instruction { StepNumber = 2, Description = "Stir in chicken soup; season with salt and pepper, to taste." },
-                            new Instruction { StepNumber = 3, Description = "Cover and cook on low heat for 4-5 hours or high heat for 2-3 hours." },
-                            new Instruction { StepNumber = 4, Description = "Serve immediately, garnished with parsley, if desired." }
+                            new Instruction { StepNumber = 1, Description = "Mix flour, egg, water, and salt to form a soft dough. Let rest 30 minutes." },
+                            new Instruction { StepNumber = 2, Description = "Boil potatoes until tender. Mash with butter, cheese, salt, and pepper." },
+                            new Instruction { StepNumber = 3, Description = "Roll dough thin, cut circles. Place filling in center, fold and seal edges." },
+                            new Instruction { StepNumber = 4, Description = "Boil varenyky in salted water until they float, about 3-4 minutes." },
+                            new Instruction { StepNumber = 5, Description = "Serve with sautéed onions and sour cream." }
+                        },
+                        Category = "Main Dish",
+                        Servings = 4,
+                        PrepTime = 40,
+                        CookTime = 20,
+                        TotalTime = 60,
+                        Source = "Ukrainian Family Recipe",
+                        SourceURL = "https://ukrainian-recipes.com/varenyky.html",
+                        ImageURL = "https://i2.wp.com/thesuburbansoapbox.com/wp-content/uploads/2016/12/Potato-Pierogies-6.jpg"
+                    },
+
+                    // Ukrainian Recipe 3: Holubtsi (Stuffed Cabbage Rolls)
+                    new Recipe
+                    {
+                        Name = "Holubtsi (Stuffed Cabbage Rolls)",
+                        RecipeIngredients = new List<RecipeIngredient>
+                        {
+                            new RecipeIngredient { IngredientName = "Green cabbage", Quantity = 1, Unit = "head", Aisle = "Produce", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Ground pork", Quantity = 0.5m, Unit = "lb", Aisle = "Meat", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Ground beef", Quantity = 0.5m, Unit = "lb", Aisle = "Meat", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Cooked rice", Quantity = 1, Unit = "cup", Aisle = "Grains", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Onion, chopped", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Carrot, grated", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Tomato sauce", Quantity = 2, Unit = "cups", Aisle = "Canned Goods", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Salt", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" }
+                        },
+                        Instructions = new List<Instruction>
+                        {
+                            new Instruction { StepNumber = 1, Description = "Boil cabbage, separate leaves. Trim thick veins." },
+                            new Instruction { StepNumber = 2, Description = "Mix pork, beef, rice, onion, carrot, salt, and pepper." },
+                            new Instruction { StepNumber = 3, Description = "Place filling on each leaf, roll up, tucking in sides." },
+                            new Instruction { StepNumber = 4, Description = "Arrange rolls in a baking dish, pour tomato sauce over." },
+                            new Instruction { StepNumber = 5, Description = "Cover and bake at 350°F for 1 hour. Serve hot." }
+                        },
+                        Category = "Main Dish",
+                        Servings = 6,
+                        PrepTime = 40,
+                        CookTime = 60,
+                        TotalTime = 100,
+                        Source = "Ukrainian Family Recipe",
+                        SourceURL = "https://ukrainian-recipes.com/holubtsi.html",
+                        ImageURL = "https://tacataca.prosport.ro/wp-content/uploads/2022/06/Ukrainian-Cabbage-Rolls-Recipe-This-Traditional-Holubtsi-R-40439-56316253e5-1646770653.jpg"
+                    },
+
+                    // Ukrainian Recipe 4: Deruny (Potato Pancakes)
+                    new Recipe
+                    {
+                        Name = "Deruny (Ukrainian Potato Pancakes)",
+                        RecipeIngredients = new List<RecipeIngredient>
+                        {
+                            new RecipeIngredient { IngredientName = "Potatoes, peeled and grated", Quantity = 4, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Egg", Quantity = 1, Unit = "pcs", Aisle = "Dairy", StorageLocation = "Fridge" },
+                            new RecipeIngredient { IngredientName = "Onion, grated", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "All-purpose flour", Quantity = 2, Unit = "tbsp", Aisle = "Baking", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Salt", Quantity = 0.5m, Unit = "tsp", Aisle = "Spices", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Vegetable oil", Quantity = 0, Unit = "for frying", Aisle = "Oils", StorageLocation = "Pantry" },
+                            new RecipeIngredient { IngredientName = "Sour cream", Quantity = 0, Unit = "for serving", Aisle = "Dairy", StorageLocation = "Fridge" }
+                        },
+                        Instructions = new List<Instruction>
+                        {
+                            new Instruction { StepNumber = 1, Description = "Mix grated potatoes, onion, egg, flour, salt, and pepper." },
+                            new Instruction { StepNumber = 2, Description = "Heat oil in skillet. Drop spoonfuls of batter, flatten slightly." },
+                            new Instruction { StepNumber = 3, Description = "Fry until golden brown on both sides, about 3-4 minutes per side." },
+                            new Instruction { StepNumber = 4, Description = "Drain on paper towels. Serve hot with sour cream." }
                         },
                         Category = "Breakfast",
-                        Servings = 8,
-                        PrepTime = 15,
-                        CookTime = 240,
-                        TotalTime = 255,
-                        Source = "Damn Delicious",
-                        SourceURL = "https://damndelicious.net/2015/12/04/slow-cooker-cheesy-breakfast-potatoes/",
-                        ImageURL = "breakfast_potatoes.jpg"
-                    },
-                    new Recipe
-                    {
-                        Name = "Chicken Stir-Fry",
-                        RecipeIngredients = new List<RecipeIngredient>
-                        {
-                            new RecipeIngredient { IngredientName = "Reduced-sodium soy sauce", Quantity = 0.5m, Unit = "cup", Aisle = "Condiments", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Honey", Quantity = 2, Unit = "tbsp", Aisle = "Condiments", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Toasted sesame oil", Quantity = 2, Unit = "tsp", Aisle = "Oils", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Canola oil", Quantity = 1, Unit = "tbsp", Aisle = "Oils", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Broccoli, cut into small florets", Quantity = 1, Unit = "head", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Bell pepper, seeds and ribs removed, chopped", Quantity = 1, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Garlic cloves, finely chopped", Quantity = 2, Unit = "pcs", Aisle = "Produce", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Boneless, skinless chicken breast, cut into 1\" pieces", Quantity = 1, Unit = "lb", Aisle = "Meat", StorageLocation  = "Fridge" },
-                            new RecipeIngredient { IngredientName = "Cashews", Quantity = 0.33m, Unit = "cup", Aisle = "Snacks", StorageLocation  = "Pantry" },
-                            new RecipeIngredient { IngredientName = "Freshly ground black pepper", Quantity = 0, Unit = "to taste", Aisle = "Spices", StorageLocation  = "Pantry" }
-                        },
-                        Instructions = new List<Instruction>
-                        {
-                            new Instruction { StepNumber = 1, Description = "In a small bowl, whisk soy sauce, honey, and sesame oil." },
-                            new Instruction { StepNumber = 2, Description = "In a large skillet over high heat, heat canola oil. Cook broccoli, bell pepper, and garlic, stirring frequently, until softened, about 5 minutes." },
-                            new Instruction { StepNumber = 3, Description = "Add chicken and cook, tossing occasionally, until golden brown and cooked through, about 8 minutes." },
-                            new Instruction { StepNumber = 4, Description = "Stir in cashews; season with pepper." },
-                            new Instruction { StepNumber = 5, Description = "Pour sauce into skillet and bring to a simmer. Cook, stirring occasionally, until thickened, about 5 minutes." }
-                        },
-                        Category = "Main Dish",
                         Servings = 4,
-                        PrepTime = 10,
-                        CookTime = 20, 
-                        TotalTime = 30,
-                        Source = "Delish",
-                        SourceURL = "https://www.delish.com/cooking/recipe-ideas/a45362568/best-chicken-stir-fry-recipe/",
-                        ImageURL = "stir_fry.png"
+                        PrepTime = 15,
+                        CookTime = 20,
+                        TotalTime = 35,
+                        Source = "Ukrainian Family Recipe",
+                        SourceURL = "https://ukrainian-recipes.com/deruny.html",
+                        ImageURL = "https://www.heathrow.com/content/dam/heathrow/web/common/images/aspect-ratio-16-9/image/blog/pancake-day/Pancake-Day-497277474.jpg/jcr:content/renditions/cq5dam.web.1680.945.jpeg"
                     }
                 };
+
+
 
                 foreach (var recipe in hardcodedRecipes)
                 {
@@ -329,7 +442,7 @@
                 Console.WriteLine($"Error loading recipes: {ex.Message}");
             }
         }
-        
+
         private void ApplyFilter()
         {
             FilteredRecipes.Clear();
@@ -361,9 +474,9 @@
             if (recipe != null)
             {
                 recipe.IsFavorite = !recipe.IsFavorite;
-                
+
                 ApplyFilter();
-                
+
                 OnPropertyChanged(nameof(Recipes));
                 OnPropertyChanged(nameof(FavoriteRecipes));
             }
@@ -418,7 +531,7 @@
             {
                 // Check the current page route
                 var currentRoute = Shell.Current.CurrentState.Location.ToString();
-        
+
                 // If the current route is RecipeSelectionPage, go back to MealPlanPage
                 if (currentRoute.Contains("RecipeSelectionPage"))
                 {

@@ -174,13 +174,62 @@ public class EditRecipeViewModel : BindableObject
         }
     }
 
-    private void EditIngredients()
+    private async void EditIngredients()
     {
-        // Implement logic for editing ingredients
+        string result = await Application.Current.MainPage.DisplayPromptAsync(
+            "Edit Ingredients",
+            "Enter new ingredients (comma-separated):",
+            initialValue: string.Join(", ", RecipeIngredients.Select(i => $"{i.Quantity} {i.Unit} {i.IngredientName}"))
+        );
+
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            var updatedIngredients = result.Split(',')
+                                           .Select(ingredient => ingredient.Trim())
+                                           .Where(ingredient => !string.IsNullOrWhiteSpace(ingredient))
+                                           .Select(ingredient =>
+                                           {
+                                               var parts = ingredient.Split(' ', 3);
+                                               if (parts.Length == 3)
+                                               {
+                                                   return new RecipeIngredient
+                                                   {
+                                                       Quantity = decimal.TryParse(parts[0], out var quantity) ? quantity : 0,
+                                                       Unit = parts[1],
+                                                       IngredientName = parts[2]
+                                                   };
+                                               }
+                                               return null;
+                                           })
+                                           .Where(ingredient => ingredient != null)
+                                           .ToList();
+
+            RecipeIngredients = updatedIngredients;
+            OnPropertyChanged(nameof(RecipeIngredients));
+        }
     }
 
-    private void EditInstructions()
+    private async void EditInstructions()
     {
-        // Implement logic for editing instructions
+        string result = await Application.Current.MainPage.DisplayPromptAsync(
+            "Edit Instructions",
+            "Enter new instructions (semicolon-separated):",
+            initialValue: string.Join("; ", Instructions.Select(i => $"{i.StepNumber}. {i.Description}"))
+        );
+
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            var updatedInstructions = result.Split(';')
+                                             .Select((instruction, index) => new Instruction
+                                             {
+                                                 StepNumber = index + 1,
+                                                 Description = instruction.Trim()
+                                             })
+                                             .Where(instruction => !string.IsNullOrWhiteSpace(instruction.Description))
+                                             .ToList();
+
+            Instructions = updatedInstructions;
+            OnPropertyChanged(nameof(Instructions));
+        }
     }
 }

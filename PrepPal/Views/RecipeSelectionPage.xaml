@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PrepPal.Views.RecipeSelectionPage"
              Title="Add To Meal Plan"
-             BackgroundColor="#F0F0F0">
+               BackgroundColor="#ADD8E6">
     
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IconOverride="back_icon.png"

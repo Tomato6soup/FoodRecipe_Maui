@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:PrepPal.ViewModels"
              xmlns:converters="clr-namespace:PrepPal.Converters"
              x:Class="PrepPal.Views.FridgeListPage"
-             BackgroundColor="#F0F0F0"
+               BackgroundColor="#ADD8E6"
              Title="Fridge List">
     
     <ContentPage.Resources>

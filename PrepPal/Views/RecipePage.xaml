@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PrepPal"
              x:Class="PrepPal.Views.RecipePage"
-             BackgroundColor="#F0F0F0"
+                BackgroundColor="#ADD8E6"
              Title="Recipes">
 
     <ContentPage.ToolbarItems>
